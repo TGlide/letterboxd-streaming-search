@@ -1,13 +1,10 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-// Set your colors
-$primary: #8c67ef;
-$primary-invert: findColorInvert($primary);
 $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
 
-// Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
   "white": (
     $white,
@@ -51,11 +48,22 @@ $colors: (
   )
 );
 
-// Links
+$background: #14181c;
+$body-color: $white;
+$body-family: "Montserrat", sans-serif;
+
+$family-primary: "Montserrat", sans-serif;
+
+$title-color: white;
+
 $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
-// Import Bulma and Buefy styles
+$input-border-color: $primary;
+$input-hover-border-color: $primary;
+$input-background-color: $grey-dark;
+$input-icon-active-color: $white;
+
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
