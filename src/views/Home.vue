@@ -17,7 +17,9 @@
         <b-button
           id="search-button"
           type="is-primary"
+          class="show"
           :class="{ show: watchlistURL }"
+          @click="$store.dispatch('refreshLetterboxdAPIKey')"
         >
           Search
         </b-button>
