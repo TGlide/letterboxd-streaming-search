@@ -65,5 +65,9 @@ $input-hover-border-color: $primary;
 $input-background-color: $grey-dark;
 $input-icon-active-color: $white;
 
+hr {
+  background-color: $white !important;
+}
+
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

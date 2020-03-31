@@ -12,6 +12,14 @@ export default new Vuex.Store({
   mutations: {
     updateMovies(state, movies) {
       this.state.movies = movies;
+    },
+    updateMovie(state, { movieIndex, newMovie }) {
+      console.log("MI: ", movieIndex, "movie:", newMovie);
+      this.state.movies = [
+        ...this.state.movies.slice(0, movieIndex),
+        newMovie,
+        ...this.state.movies.slice(movieIndex + 1)
+      ];
     }
   },
   actions: {
@@ -28,7 +36,12 @@ export default new Vuex.Store({
               res.data.data.movies &&
               res.data.data.movies.length > 0
             ) {
-              commit("updateMovies", res.data.data.movies);
+              commit(
+                "updateMovies",
+                res.data.data.movies.map(m => {
+                  return { name: m, loading: true, onNetflix: undefined };
+                })
+              );
               resolve({ success: true });
             }
             reject({
@@ -42,5 +55,8 @@ export default new Vuex.Store({
       });
     }
   },
-  modules: {}
+  modules: {},
+  getters: {
+    movies: state => state.movies
+  }
 });

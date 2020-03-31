@@ -57,7 +57,6 @@ export default {
       this.$store
         .dispatch("getMoviesFromWatchlist", username)
         .then(() => {
-          console.log("a");
           this.$router.push({ name: "MovieList" });
         })
         .catch(err => {
