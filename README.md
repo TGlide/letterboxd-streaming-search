@@ -1,6 +1,7 @@
 # Letterboxd Streaming Search
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge)](http://commitizen.github.io/cz-cli/)
+[![Built with Vue](https://img.shields.io/badge/built%20with-vue-4FC08D?style=for-the-badge&logo=vue.js)](https://vuejs.org/)
 
 ## Description
 
