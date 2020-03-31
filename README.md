@@ -1,34 +1,27 @@
-# letterboxd-streaming-search
+# Letterboxd Streaming Search
 
-## Project setup
-```
-yarn install
-```
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge)](http://commitizen.github.io/cz-cli/)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Description
 
-### Compiles and minifies for production
-```
-yarn build
-```
+This is a webapp for viewing which movies of your Letterboxd watchlist are available on the most popular streaming services today
 
-### Run your unit tests
-```
-yarn test:unit
-```
+## Usage
 
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
+- Clone/Download this repo
+- Make sure you have the latest version of `yarn` installed.
+- Install the dependencies by running `yarn`
+- Run the app with `yarn start`
 
-### Lints and fixes files
-```
-yarn lint
-```
+That's it!
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Contributing
+
+Contributors are welcome! As this is a commitizen friendly repo, please follow this instructions when committing:
+
+- Run `yarn global add commitizen`
+- For every commit, run `git cz` instead of `git commit`
+
+## License
+
+This project is under the GNU General Public License v3.0
