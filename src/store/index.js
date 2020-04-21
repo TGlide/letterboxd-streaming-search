@@ -14,7 +14,6 @@ export default new Vuex.Store({
       this.state.movies = movies
     },
     updateMovie(state, { movieIndex, newMovie }) {
-      console.log("MI: ", movieIndex, "movie:", newMovie)
       this.state.movies = [
         ...this.state.movies.slice(0, movieIndex),
         newMovie,

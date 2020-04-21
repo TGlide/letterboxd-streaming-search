@@ -83,8 +83,7 @@ export default {
         .then(() => {
           this.$router.push(redirectRoute)
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
           this.err = true
         })
         .finally(() => {
