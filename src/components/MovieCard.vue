@@ -1,6 +1,7 @@
 <template>
-  <div class="movie" v-if="movie">
+  <div class="movie box" v-if="movie">
     <span class="title">{{ movie.name }}</span>
+    <img :src="movie.poster" />
     <span class="status">
       <b-icon
         :icon="getIcon.icon"
@@ -31,12 +32,19 @@ export default {
 <style lang="scss" scoped>
 .movie {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 
+  img {
+    width: 10rem;
+    height: 15rem;
+  }
+
   .title {
     text-transform: capitalize;
+    text-align: center;
+    font-size: 1.25rem;
   }
 }
 </style>

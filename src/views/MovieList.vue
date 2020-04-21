@@ -3,11 +3,20 @@
     <section class="section">
       <div class="container">
         <div
-          v-for="(movie, index) in sortedMovies"
-          :key="movie.name + movie.onNetflix"
+          class="columns"
+          v-for="index in Math.floor(sortedMovies.length / 5)"
+          :key="index"
         >
-          <MovieCard :movie="movie" />
-          <hr v-if="index != Object.keys($store.getters.movies).length - 1" />
+          <div
+            class="column is-one-fifth"
+            v-for="movie in sortedMovies.slice(
+              (index - 1) * 5,
+              (index - 1) * 5 + 5
+            )"
+            :key="movie.name + movie.onNetflix"
+          >
+            <MovieCard :movie="movie" />
+          </div>
         </div>
       </div>
     </section>
@@ -36,13 +45,15 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.getters.movies.length, "movies in total.");
     for (let i = 0; i < this.$store.getters.movies.length; i++) {
       let movie = this.$store.getters.movies[i];
 
       const newMovie = {
-        name: movie.name,
+        ...movie,
         loading: false
       };
+
       axios
         .get(
           `${process.env.VUE_APP_NETFLIX_API_URL}/movie/?title=${movie.name}`
@@ -58,12 +69,23 @@ export default {
           newMovie.onNetflix = false;
         })
         .finally(() => {
-          this.$store.commit("updateMovie", {
-            movieIndex: i,
-            newMovie: newMovie
-          });
-          this.sortedMovies = this.$store.getters.movies;
-          this.sortedMovies.sort(this.compareMovies);
+          axios
+            .get(
+              `${process.env.VUE_APP_TMDB_API_URL}/search/movie?query=${movie.name}&api_key=${process.env.VUE_APP_TMDB_API_TOKEN}`
+            )
+            .then(res => {
+              if (res.status == 200 && res.data.results.length > 0) {
+                newMovie.poster = `${process.env.VUE_APP_TMDB_IMG_URL}${res.data.results[0].poster_path}`;
+              }
+            })
+            .finally(() => {
+              this.$store.commit("updateMovie", {
+                movieIndex: i,
+                newMovie: newMovie
+              });
+              this.sortedMovies = this.$store.getters.movies;
+              this.sortedMovies.sort(this.compareMovies);
+            });
         });
     }
   }

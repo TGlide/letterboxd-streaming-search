@@ -9,20 +9,27 @@
             type="search"
             icon-pack="fas"
             icon="search"
-            v-model="watchlistURL"
+            v-model="listURL"
             rounded
           >
           </b-input>
         </b-field>
-        <b-field>
+        <b-field id="action-buttons" grouped>
           <b-button
-            id="search-button"
             type="is-primary"
-            :class="{ show: watchlistURL && urlIsValid() }"
-            @click="searchMovies"
+            :class="{ show: listURL && urlIsValid() }"
+            @click="() => getMovies('MovieList')"
             :loading="loading"
           >
             Search
+          </b-button>
+          <b-button
+            type="is-primary"
+            :class="{ show: listURL && urlIsValid() }"
+            @click="() => getMovies('RandomMovie')"
+            :loading="loading"
+          >
+            Random
           </b-button>
         </b-field>
       </div>
@@ -31,44 +38,61 @@
 </template>
 
 <script>
-const urlPattern = /(https:\/\/)?letterboxd.com\/(.*?)\/watchlist(\/)?/;
+const wlUrlPattern = /(https:\/\/)?letterboxd.com\/(.*?)\/watchlist(\/)?/
+const listUrlPattern = /(https:\/\/)?letterboxd.com\/(.*?)\/list\/([^/]*)/
 
 export default {
   name: "Home",
   data() {
     return {
-      watchlistURL: "",
+      listURL: "",
       loading: false,
-      error: false
-    };
+      error: false,
+    }
   },
   methods: {
     urlIsValid() {
-      return this.watchlistURL.match(urlPattern);
+      return (
+        this.listURL.match(wlUrlPattern) || this.listURL.match(listUrlPattern)
+      )
     },
 
-    searchMovies() {
-      if (!this.urlIsValid() || this.loading) return;
-      const username = this.watchlistURL.match(urlPattern)[2];
+    getMovies(redirectViewName) {
+      if (!this.urlIsValid() || this.loading) return
+      const watchlistMatch = this.listURL.match(wlUrlPattern)
+      const listMatch = this.listURL.match(listUrlPattern)
 
-      this.loading = true;
-      this.error = false;
+      let storeAction, payload
+      const redirectRoute = { name: redirectViewName }
+
+      if (watchlistMatch) {
+        storeAction = "getMoviesFromWatchlist"
+        payload = watchlistMatch[2]
+      } else if (listMatch) {
+        storeAction = "getMoviesFromList"
+        payload = { username: listMatch[2], listName: listMatch[3] }
+      } else {
+        return
+      }
+
+      this.loading = true
+      this.error = false
 
       this.$store
-        .dispatch("getMoviesFromWatchlist", username)
+        .dispatch(storeAction, payload)
         .then(() => {
-          this.$router.push({ name: "MovieList" });
+          this.$router.push(redirectRoute)
         })
         .catch(err => {
-          console.log(err);
-          this.err = true;
+          console.log(err)
+          this.err = true
         })
         .finally(() => {
-          this.loading = false;
-        });
-    }
-  }
-};
+          this.loading = false
+        })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -79,22 +103,30 @@ export default {
   align-items: center;
 }
 
-#search-button {
-  display: block;
-  margin: 1rem auto;
+#action-buttons {
+  display: flex;
+  flex-direction: row;
 
-  opacity: 0;
-  transform: translateY(50%);
+  justify-content: center;
+  align-items: center;
 
-  transition: 0.5s ease;
+  margin: 1rem;
 
-  &.show {
-    opacity: 1;
-    transform: translateY(0%);
-  }
+  .button {
+    margin: 0 1rem;
+    opacity: 0;
+    transform: translateY(50%);
 
-  /deep/ & + .help {
-    text-align: center;
+    transition: 0.5s ease;
+
+    &.show {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+
+    /deep/ & + .help {
+      text-align: center;
+    }
   }
 }
 </style>

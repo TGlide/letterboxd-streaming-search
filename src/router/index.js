@@ -1,24 +1,30 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from "vue"
+import VueRouter from "vue-router"
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue")
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
   },
   {
     path: "/movie-list",
     name: "MovieList",
     component: () =>
-      import(/* webpackChunkName: "movielist" */ "../views/MovieList.vue")
-  }
-];
+      import(/* webpackChunkName: "movielist" */ "../views/MovieList.vue"),
+  },
+  {
+    path: "/random-movie",
+    name: "RandomMovie",
+    component: () =>
+      import(/* webpackChunkName: "randomMovie" */ "../views/RandomMovie.vue"),
+  },
+]
 
 const router = new VueRouter({
-  routes
-});
+  routes,
+})
 
-export default router;
+export default router
